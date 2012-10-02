@@ -124,15 +124,15 @@ bool AnimModel::setData(const QModelIndex &index, const QVariant &value, int rol
     switch(index.column())
     {
     case NameColumn:
-        anim->m_name = value.toString();
+        anim->setName(value.toString());
         return true;
 
     case FrameCountColumn:
-        anim->m_frameCount = value.toInt();
+        anim->setFrameCount(value.toInt());
         return true;
 
     case FpsColumn:
-        anim->m_fps = value.toInt();
+        anim->setFps(value.toInt());
         return true;
 
     default:
