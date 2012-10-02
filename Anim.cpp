@@ -1,5 +1,6 @@
 #include "Anim.h"
 #include "AnimModel.h"
+#include <QDebug>
 
 Anim::Anim(const QString &name, int frameCount, int fps) :
     m_model(NULL),

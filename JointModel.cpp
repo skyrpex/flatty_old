@@ -197,8 +197,6 @@ QModelIndex JointModel::indexOf(Joint *joint, int column) const
 
 void JointModel::addAnim(Anim *anim)
 {
-    qDebug() << anim->name();
-
     int column = m_root->m_anims.count();
     beginInsertColumns(QModelIndex(), column, column);
 
@@ -207,9 +205,9 @@ void JointModel::addAnim(Anim *anim)
     while(!stack.isEmpty())
     {
         Joint *joint = stack.pop();
-//        KeyFrames *keyFrames = new KeyFrames;
-//        keyFrames->insert(0, new int(0));
-        joint->m_anims.insert(anim, 0/*keyFrames*/);
+        KeyFrameMap *keyFrames = new KeyFrameMap;
+        keyFrames->insert(0, 0);
+        joint->m_anims.insert(anim, keyFrames);
         foreach(Joint *child, joint->children())
             stack.push(child);
     }
@@ -219,7 +217,20 @@ void JointModel::addAnim(Anim *anim)
 
 void JointModel::removeAnim(Anim *anim)
 {
-    qDebug() << anim->name();
+    int column = m_root->m_anims.keys().indexOf(anim);
+    beginRemoveColumns(QModelIndex(), column, column);
+
+    QStack<Joint *> stack;
+    stack.push(m_root);
+    while(!stack.isEmpty())
+    {
+        Joint *joint = stack.pop();
+        delete joint->m_anims.take(anim);
+        foreach(Joint *child, joint->children())
+            stack.push(child);
+    }
+
+    endRemoveColumns();
 }
 
 void JointModel::onAnimChanged(Anim *anim)
