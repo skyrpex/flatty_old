@@ -33,8 +33,8 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
 signals:
-    void animInserted(int row, Anim *anim);
-    void animRemoved(int row, Anim *anim);
+    void animInserted(Anim *anim);
+    void animRemoved(Anim *anim);
     void animChanged(Anim *anim);
 
 private:

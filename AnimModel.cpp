@@ -26,7 +26,7 @@ void AnimModel::insertAnim(int row, Anim *anim)
     m_animations.insert(row, anim);
     endInsertRows();
 
-    emit animInserted(row, anim);
+    emit animInserted(anim);
 }
 
 void AnimModel::removeAnim(Anim *anim)
@@ -45,7 +45,7 @@ Anim *AnimModel::takeAnim(int row)
     anim->m_model = NULL;
     endInsertRows();
 
-    emit animRemoved(row, anim);
+    emit animRemoved(anim);
     return anim;
 }
 
