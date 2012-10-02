@@ -2,8 +2,12 @@
 #define ANIM_H
 
 #include <QString>
+#include <QMap>
 
 class AnimModel;
+class Anim;
+
+typedef QMap<Anim *, void*> AnimMap;
 
 class Anim
 {
