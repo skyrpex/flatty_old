@@ -7,7 +7,8 @@
 class AnimModel;
 class Anim;
 
-typedef QMap<Anim *, void*> AnimMap;
+typedef QMap<int, void*> KeyFrameMap;
+typedef QMap<Anim *, KeyFrameMap*> AnimMap;
 
 class Anim
 {
