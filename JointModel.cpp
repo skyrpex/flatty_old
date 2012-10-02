@@ -222,6 +222,12 @@ void JointModel::removeAnim(Anim *anim)
     qDebug() << anim->name();
 }
 
+void JointModel::onAnimChanged(Anim *anim)
+{
+    int row = m_root->m_anims.keys().indexOf(anim);
+    emit dataChanged(index(0, row), index(0, row));
+}
+
 void JointModel::emitDataChanged(Joint *joint, int column)
 {
     QModelIndex index = indexOf(joint, column);

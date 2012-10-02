@@ -33,6 +33,7 @@ public:
 public slots:
     void addAnim(Anim *anim);
     void removeAnim(Anim *anim);
+    void onAnimChanged(Anim *anim);
 
 private:
     friend class Joint;
