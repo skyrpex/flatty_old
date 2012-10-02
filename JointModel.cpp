@@ -206,7 +206,7 @@ void JointModel::addAnim(Anim *anim)
     {
         Joint *joint = stack.pop();
         KeyFrameMap *keyFrames = new KeyFrameMap;
-        keyFrames->insert(0, 0);
+        keyFrames->insert(0, new int(69));
         joint->m_anims.insert(anim, keyFrames);
         foreach(Joint *child, joint->children())
             stack.push(child);

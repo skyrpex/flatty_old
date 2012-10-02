@@ -32,6 +32,11 @@ Joint::~Joint()
         if(m_model) m_model->endRemoveJoints();
     }
 
+    // Free animations
+    foreach(KeyFrameMap *map, m_anims.values())
+        qDeleteAll(map->values());
+    qDeleteAll(m_anims.keys());
+
     // Delete the children
     foreach(Joint *child, m_children)
     {
