@@ -12,10 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     AnimModel.cpp \
-    Anim.cpp
+    Anim.cpp \
+    Joint.cpp
 
 HEADERS  += \
     AnimModel.h \
-    Anim.h
+    Anim.h \
+    Joint.h
 
 FORMS    +=
