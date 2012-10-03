@@ -60,7 +60,7 @@ void JointHeaderView::paintSection(QPainter *painter, const QRect &rect, int log
     QVector<QLineF> lines(frameCount+1);
     for(int i = 0; i <= frameCount; ++i)
     {
-        int x = i*FrameWidth;
+        int x = i*FrameWidth-1;
         lines[i] = QLineF(x, rect.height()-6, x, rect.height()-2);
     }
     painter->drawLines(lines);
