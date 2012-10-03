@@ -51,15 +51,14 @@ void AnimModel::insertAnim(int row, Anim *anim)
 
 void AnimModel::removeAnim(Anim *anim)
 {
-    int row = m_animations.indexOf(anim);
-    if(row < 0)
-        return;
-
-    takeAnim(row);
+    takeAnim(m_animations.indexOf(anim));
 }
 
 Anim *AnimModel::takeAnim(int row)
 {
+    if(row < 0 || row >= m_animations.count())
+        return NULL;
+
     beginRemoveRows(QModelIndex(), row, row);
     Anim *anim = m_animations.takeAt(row);
     anim->m_model = NULL;
