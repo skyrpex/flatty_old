@@ -31,8 +31,8 @@ public:
     QModelIndex indexOf(Joint *joint, int column) const;
 
 public slots:
-    void addAnim(Anim *anim);
-    void removeAnim(Anim *anim);
+    void onAnimInserted(Anim *anim);
+    void onAnimRemoved(Anim *anim);
     void onAnimChanged(Anim *anim);
 
 private:

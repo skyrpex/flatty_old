@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     AnimModel *am = new AnimModel;
     JointModel *jm = new JointModel;
 
-    QObject::connect(am, SIGNAL(animInserted(Anim*)), jm, SLOT(addAnim(Anim*)));
-    QObject::connect(am, SIGNAL(animRemoved(Anim*)), jm, SLOT(removeAnim(Anim*)));
+    QObject::connect(am, SIGNAL(animInserted(Anim*)), jm, SLOT(onAnimInserted(Anim*)));
+    QObject::connect(am, SIGNAL(animRemoved(Anim*)), jm, SLOT(onAnimRemoved(Anim*)));
     QObject::connect(am, SIGNAL(animChanged(Anim*)), jm, SLOT(onAnimChanged(Anim*)));
 
     Anim *anim = new Anim("Biribit", 60, 30);

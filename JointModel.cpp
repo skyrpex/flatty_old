@@ -195,7 +195,7 @@ QModelIndex JointModel::indexOf(Joint *joint, int column) const
     return index;
 }
 
-void JointModel::addAnim(Anim *anim)
+void JointModel::onAnimInserted(Anim *anim)
 {
     int column = m_root->m_anims.count();
     beginInsertColumns(QModelIndex(), column, column);
@@ -215,7 +215,7 @@ void JointModel::addAnim(Anim *anim)
     endInsertColumns();
 }
 
-void JointModel::removeAnim(Anim *anim)
+void JointModel::onAnimRemoved(Anim *anim)
 {
     int column = m_root->m_anims.keys().indexOf(anim);
     beginRemoveColumns(QModelIndex(), column, column);
