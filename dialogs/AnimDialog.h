@@ -20,6 +20,9 @@ public:
     int frameCount() const;
     int fps() const;
 
+private slots:
+    void onNameChanged(const QString &text);
+
 private:
     Ui::AnimDialog *ui;
 };
