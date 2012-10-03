@@ -68,7 +68,7 @@ void JointDelegate::paintAnim(QPainter *painter, const QStyleOptionViewItem &opt
     // Draw the keyframes
     if(anim)
     {
-        foreach(int frame, keyFrames->keyFrameMap.keys())
+        foreach(int frame, keyFrames->data.keys())
         {
             int x = frame*pixmap.size().width();
             QRectF rect(QPointF(x, 0), pixmap.size());

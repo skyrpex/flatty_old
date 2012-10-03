@@ -20,7 +20,10 @@ SOURCES += main.cpp \
     Transform.cpp \
     JointDelegate.cpp \
     KeyFrames.cpp \
-    JointHeaderView.cpp
+    JointHeaderView.cpp \
+    KeyFramesEditor.cpp \
+    KeyFrameMime.cpp \
+    KeyFrameItem.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -32,7 +35,10 @@ HEADERS  += \
     Transform.h \
     JointDelegate.h \
     KeyFrames.h \
-    JointHeaderView.h
+    JointHeaderView.h \
+    KeyFramesEditor.h \
+    KeyFrameMime.h \
+    KeyFrameItem.h
 
 FORMS    +=
 
