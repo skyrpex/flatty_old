@@ -28,6 +28,7 @@ JointModel::~JointModel()
 {
     beginRemoveRows(QModelIndex(), 0, 0);
     delete m_root;
+    m_root = NULL;
     endRemoveRows();
 }
 
@@ -52,12 +53,13 @@ QVariant JointModel::data(const QModelIndex &index, int role) const
     default:
     {
         int animID = index.column() - AnimColumn;
+        Anim *anim = m_animModel->anims().at(animID);
         if(inRange(0, animID, joint->m_anims.count()))
         {
             if(role == Qt::DisplayRole || role == Qt::EditRole)
-                return QVariant::fromValue(joint->m_anims.values().at(animID));
+                return QVariant::fromValue(joint->m_anims.value(anim));
             else if(role == AnimRole)
-                return QVariant::fromValue(joint->m_anims.keys().at(animID));
+                return QVariant::fromValue(anim);
         }
     }
         break;
@@ -87,9 +89,9 @@ QVariant JointModel::headerData(int section, Qt::Orientation orientation, int ro
     else
     {
         int animID = section - AnimColumn;
-        if(inRange(0, animID, m_root->m_anims.count()))
+        if(inRange(0, animID, m_animModel->anims().count()))
         {
-            return QString("%1 %2").arg(tr(AnimColumnText)).arg(animID);
+            return QString("%1 %2").arg(m_animModel->anims().at(animID)->name()).arg(animID);
         }
     }
     return QVariant();
