@@ -14,8 +14,9 @@ class KeyFrames : public QObject
     Q_OBJECT
 public:
     explicit KeyFrames(QObject *parent = 0);
+    ~KeyFrames();
 
-    KeyFrameMap data;
+    KeyFrameMap *data;
 };
 
 Q_DECLARE_METATYPE(KeyFrames*)

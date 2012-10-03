@@ -2,6 +2,7 @@
 #include "Anim.h"
 #include "JointModel.h"
 #include "KeyFrames.h"
+#include "KeyFramesEditor.h"
 #include <QDebug>
 #include <QEvent>
 #include <QMouseEvent>
@@ -17,19 +18,20 @@ JointDelegate::JointDelegate(QObject *parent) :
 
 QWidget *JointDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-//    if(index.data().canConvert<Anim *>())
-//        return new AnimEditor(parent);
+    if(index.data().canConvert<KeyFrames *>())
+        return new KeyFramesEditor(parent);
 
     return QStyledItemDelegate::createEditor(parent, option, index);
 }
 
 void JointDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    if(index.data().canConvert<Anim *>())
+    if(index.data().canConvert<KeyFrames *>())
     {
-//        Anim *anim = index.data().value<Anim *>();
-//        AnimEditor *AnimEditor = qobject_cast<AnimEditor *>(editor);
-//        AnimEditor->setAnim(anim);
+        Anim *anim = index.data(JointModel::AnimRole).value<Anim *>();
+        KeyFrames *keyFrames = index.data().value<KeyFrames *>();
+        KeyFramesEditor *keyFramesEditor = qobject_cast<KeyFramesEditor *>(editor);
+        keyFramesEditor->setData(keyFrames->data, anim->frameCount());
     }
     else
         QStyledItemDelegate::setEditorData(editor, index);
@@ -68,7 +70,7 @@ void JointDelegate::paintAnim(QPainter *painter, const QStyleOptionViewItem &opt
     // Draw the keyframes
     if(anim)
     {
-        foreach(int frame, keyFrames->data.keys())
+        foreach(int frame, keyFrames->data->keys())
         {
             int x = frame*pixmap.size().width();
             QRectF rect(QPointF(x, 0), pixmap.size());

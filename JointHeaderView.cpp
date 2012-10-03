@@ -108,6 +108,5 @@ void JointHeaderView::updateCurrentFrame(const QPoint &pos)
         return;
 
     int x = pos.x() + offset() - sectionPosition(logicalIndex);
-    qDebug() << x << int((0.5+x)/FrameWidth);
     setCurrentFrame((0.5+x)/FrameWidth);
 }

@@ -11,6 +11,9 @@ JointTreeView::JointTreeView(QWidget *parent) :
     setItemDelegate(new JointDelegate);
     setHeader(new JointHeaderView);
     setAutoScroll(false);
+    setMouseTracking(true);
+
+    connect(this, SIGNAL(entered(QModelIndex)), SLOT(onEntered(QModelIndex)));
 }
 
 void JointTreeView::setModel(QAbstractItemModel *model)
@@ -45,4 +48,19 @@ void JointTreeView::onCurrentAnimChanged(Anim *current, Anim *previous)
 
     if(previous) hideColumn(JointModel::AnimColumn+anims.indexOf(previous));
     if(current) showColumn(JointModel::AnimColumn+anims.indexOf(current));
+}
+
+void JointTreeView::onEntered(const QModelIndex &index)
+{
+    if(m_openEditorIndex.isValid())
+        {
+            closePersistentEditor(m_openEditorIndex);
+            m_openEditorIndex = QModelIndex();
+        }
+
+        if(index.column() != JointModel::NameColumn)
+        {
+            openPersistentEditor(index);
+            m_openEditorIndex = index;
+        }
 }

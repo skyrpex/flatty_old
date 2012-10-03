@@ -20,8 +20,12 @@ public slots:
     void showAnimColumn(Anim *anim);
     void onCurrentAnimChanged(Anim *current, Anim *previous);
 
+private slots:
+    void onEntered(const QModelIndex &index);
+
 private:
     JointModel *m_model;
+    QModelIndex m_openEditorIndex;
 };
 
 #endif // JOINTTREEVIEW_H
