@@ -17,16 +17,23 @@ AnimWidget::AnimWidget(AnimModel *model, QWidget *parent) :
 {
     m_view->setModel(model);
 
-    connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
-
     QVBoxLayout *layout = new QVBoxLayout(this);
     {
         QToolBar *t = new QToolBar(this);
-        QAction *a = t->addAction("Hi", this, SLOT(createAnim()));
-        a->setShortcut(QKeySequence("Ctrl+A"));
+        m_createAction = t->addAction("Create Anim", this, SLOT(createAnim()));
+        m_createAction->setShortcut(QKeySequence("Ctrl+A"));
+        m_editAction = t->addAction("Edit Anim", this, SLOT(editAnim()));
+        m_editAction->setShortcut(QKeySequence("Ctrl+E"));
+        m_removeAction = t->addAction("Remove Anim", this, SLOT(removeAnim()));
+        m_removeAction->setShortcut(QKeySequence("Ctrl+R"));
         layout->addWidget(t);
     }
     layout->addWidget(m_view);
+
+    connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
+    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(updateActions()));
+
+    updateActions();
 }
 
 void AnimWidget::createAnim()
@@ -40,7 +47,32 @@ void AnimWidget::createAnim()
     m_view->setCurrentIndex(m_model->index(m_model->anims().count()-1, 0, QModelIndex()));
 }
 
+void AnimWidget::editAnim()
+{
+    Anim *anim = static_cast<Anim *>(m_view->currentIndex().internalPointer());
+
+    AnimDialog d(anim->name(), anim->frameCount(), anim->fps(), this);
+    if(!d.exec()) return;
+
+    anim->setName(d.name());
+    anim->setFrameCount(d.frameCount());
+    anim->setFps(d.fps());
+}
+
+void AnimWidget::removeAnim()
+{
+    Anim *anim = static_cast<Anim *>(m_view->currentIndex().internalPointer());
+    delete anim;
+}
+
 void AnimWidget::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     emit currentAnimChanged(current.row(), previous.row());
+}
+
+void AnimWidget::updateActions()
+{
+    bool hasCurrent = m_view->currentIndex().isValid();
+    m_editAction->setEnabled(hasCurrent);
+    m_removeAction->setEnabled(hasCurrent);
 }
