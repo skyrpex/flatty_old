@@ -4,9 +4,11 @@
 #include <QMouseEvent>
 #include <QDateTime>
 #include "JointModel.h"
+#include "AnimModel.h"
+#include "Anim.h"
 
-//static const QBrush MARKER_BRUSH(QColor(250, 160, 170));
-//static const QPen MARKER_PEN(QColor(200, 90, 90));
+//static const QBrush MarkerBrush(QColor(250, 160, 170));
+//static const QPen MarkerPen(QColor(200, 90, 90));
 static const QBrush MarkerBrush(QColor(250, 150, 150));
 static const QPen MarkerPen(QColor(250, 0, 0));
 
@@ -15,7 +17,8 @@ static const int FramesInARow = 5;
 
 JointHeaderView::JointHeaderView(QWidget *parent) :
     QHeaderView(Qt::Horizontal, parent),
-    m_currentFrame(0)
+    m_currentFrame(0),
+    m_frameCount(0)
 {
     // Make sure a scrollbar appears
     setResizeMode(ResizeToContents);
@@ -35,6 +38,11 @@ void JointHeaderView::setCurrentFrame(int frame)
         viewport()->update();
         emit currentFrameChanged(m_currentFrame);
     }
+}
+
+void JointHeaderView::setFrameCount(int frameCount)
+{
+    m_frameCount = frameCount;
 }
 
 void JointHeaderView::paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const
@@ -104,9 +112,10 @@ void JointHeaderView::mouseMoveEvent(QMouseEvent *e)
 void JointHeaderView::updateCurrentFrame(const QPoint &pos)
 {
     int logicalIndex = logicalIndexAt(pos);
-    if(!qobject_cast<JointModel *>(model()) || logicalIndex == JointModel::NameColumn)
+    if(!qobject_cast<JointModel *>(this->model()) || logicalIndex == JointModel::NameColumn)
         return;
 
     int x = pos.x() + offset() - sectionPosition(logicalIndex);
-    setCurrentFrame((0.5+x)/FrameWidth);
+    int frame = (0.5+x)/FrameWidth;
+    setCurrentFrame(qBound(0, frame, m_frameCount-1));
 }
