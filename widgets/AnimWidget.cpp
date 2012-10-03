@@ -31,7 +31,7 @@ AnimWidget::AnimWidget(AnimModel *model, QWidget *parent) :
     layout->addWidget(m_view);
 
     connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(updateActions()));
+    connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(updateActions()));
 
     updateActions();
 }
