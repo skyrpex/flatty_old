@@ -35,6 +35,9 @@ void AnimWidget::createAnim()
     if(!d.exec()) return;
 
     m_model->addAnim(new Anim(d.name(), d.frameCount(), d.fps()));
+
+    // Set the new anim as current index
+    m_view->setCurrentIndex(m_model->index(m_model->anims().count()-1, 0, QModelIndex()));
 }
 
 void AnimWidget::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous)
