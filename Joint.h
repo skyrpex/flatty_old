@@ -35,9 +35,11 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    AnimMap anims() const;
+
 private:
     friend class JointModel;
-    void syncAnimations(Joint *joint);
+    void syncAnims(Joint *joint);
 
     JointModel *m_model;
 

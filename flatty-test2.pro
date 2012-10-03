@@ -14,12 +14,14 @@ SOURCES += main.cpp \
     AnimModel.cpp \
     Anim.cpp \
     Joint.cpp \
-    JointModel.cpp
+    JointModel.cpp \
+    JointTreeView.cpp
 
 HEADERS  += \
     AnimModel.h \
     Anim.h \
     Joint.h \
-    JointModel.h
+    JointModel.h \
+    JointTreeView.h
 
 FORMS    +=

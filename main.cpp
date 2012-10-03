@@ -5,6 +5,7 @@
 #include "Anim.h"
 #include "JointModel.h"
 #include "Joint.h"
+#include "JointTreeView.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,16 +26,17 @@ int main(int argc, char *argv[])
 
     QTreeView *av = new QTreeView;
     av->setModel(am);
-    QTreeView *jv = new QTreeView;
+    JointTreeView *jv = new JointTreeView;
     jv->setModel(jm);
+    jv->showAnimColumn(anim);
     QSplitter s;
     s.addWidget(av);
     s.addWidget(jv);
     s.show();
 
-    delete anim;
-
     Joint *j = new Joint("Savarage", jm->rootJoint());
+
+//    delete anim;
 
     return a.exec();
 }
