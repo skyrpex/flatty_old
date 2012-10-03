@@ -16,6 +16,11 @@ AnimModel::~AnimModel()
     qDeleteAll(m_animations);
 }
 
+QList<Anim *> AnimModel::anims() const
+{
+    return m_animations;
+}
+
 void AnimModel::addAnim(Anim *anim)
 {
     insertAnim(m_animations.count(), anim);

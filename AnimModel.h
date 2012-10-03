@@ -20,6 +20,8 @@ public:
     explicit AnimModel(QObject *parent = 0);
     ~AnimModel();
 
+    QList<Anim *> anims() const;
+
     void addAnim(Anim *anim);
     void insertAnim(int row, Anim *anim);
     void removeAnim(Anim *anim);
