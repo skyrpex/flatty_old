@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     AnimTreeView.cpp \
     Transform.cpp \
     JointDelegate.cpp \
-    KeyFrames.cpp
+    KeyFrames.cpp \
+    JointHeaderView.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     AnimTreeView.h \
     Transform.h \
     JointDelegate.h \
-    KeyFrames.h
+    KeyFrames.h \
+    JointHeaderView.h
 
 FORMS    +=
 

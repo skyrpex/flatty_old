@@ -2,15 +2,15 @@
 #include "JointModel.h"
 #include "Joint.h"
 #include "JointDelegate.h"
-#include <QHeaderView>
+#include "JointHeaderView.h"
 
 JointTreeView::JointTreeView(QWidget *parent) :
     QTreeView(parent),
     m_model(NULL)
 {
     setItemDelegate(new JointDelegate);
-    header()->setResizeMode(QHeaderView::ResizeToContents);
-    header()->setStretchLastSection(false);
+    setHeader(new JointHeaderView);
+    setAutoScroll(false);
 }
 
 void JointTreeView::setModel(QAbstractItemModel *model)
