@@ -1,12 +1,6 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-10-02T22:24:59
-#
-#-------------------------------------------------
-
 QT       += core gui
 
-TARGET = flatty-test2
+TARGET = flatty
 TEMPLATE = app
 
 
