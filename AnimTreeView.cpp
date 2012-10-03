@@ -3,7 +3,8 @@
 #include <QDebug>
 
 AnimTreeView::AnimTreeView(QWidget *parent) :
-    QTreeView(parent)
+    QTreeView(parent),
+    m_model(NULL)
 {
 }
 

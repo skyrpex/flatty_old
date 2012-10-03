@@ -4,7 +4,8 @@
 #include "JointDelegate.h"
 
 JointTreeView::JointTreeView(QWidget *parent) :
-    QTreeView(parent)
+    QTreeView(parent),
+    m_model(NULL)
 {
     setItemDelegate(new JointDelegate);
 }
