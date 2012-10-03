@@ -1,6 +1,7 @@
 #include "JointModel.h"
 #include "Joint.h"
 #include "Anim.h"
+#include "AnimModel.h"
 #include "Transform.h"
 #include "KeyFrames.h"
 #include <QSize>
@@ -14,9 +15,13 @@ static const char *AnimColumnText = "Animation";
 
 JointModel::JointModel(QObject *parent) :
     QAbstractItemModel(parent),
+    m_animModel(new AnimModel(this)),
     m_root(new Joint(tr(RootText)))
 {
     m_root->m_model = this;
+    connect(m_animModel, SIGNAL(animInserted(Anim*)), SLOT(onAnimInserted(Anim*)));
+    connect(m_animModel, SIGNAL(animRemoved(Anim*)), SLOT(onAnimRemoved(Anim*)));
+    connect(m_animModel, SIGNAL(animChanged(Anim*)), SLOT(onAnimChanged(Anim*)));
 }
 
 bool inRange(int min, int val, int max)
@@ -197,6 +202,11 @@ QModelIndex JointModel::indexOf(Joint *joint, int column) const
     for(int i = childIndexes.count() - 1; i >= 0 ; --i)
         index = this->index(childIndexes.at(i), column, index);
     return index;
+}
+
+AnimModel *JointModel::animModel() const
+{
+    return m_animModel;
 }
 
 void JointModel::onAnimInserted(Anim *anim)

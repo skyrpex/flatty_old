@@ -12,18 +12,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    AnimModel *am = new AnimModel;
     JointModel *jm = new JointModel;
-
-    QObject::connect(am, SIGNAL(animInserted(Anim*)), jm, SLOT(onAnimInserted(Anim*)));
-    QObject::connect(am, SIGNAL(animRemoved(Anim*)), jm, SLOT(onAnimRemoved(Anim*)));
-    QObject::connect(am, SIGNAL(animChanged(Anim*)), jm, SLOT(onAnimChanged(Anim*)));
+    AnimModel *am = jm->animModel();
 
     Anim *anim = new Anim("Biribit", 1, 30);
     am->addAnim(anim);
     am->addAnim(new Anim("Kaparaw", 2, 20));
     am->insertAnim(1, new Anim("Inasada", 3, 10));
-    am->insertAnim(0, new Anim("Ungosni", 4, 0));
+    am->insertAnim(0, new Anim("Ungosni", 40, 0));
 
     AnimTreeView *av = new AnimTreeView;
     av->setModel(am);

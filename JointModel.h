@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 class Joint;
+class AnimModel;
 class Anim;
 
 class JointModel : public QAbstractItemModel
@@ -33,8 +34,9 @@ public:
 
     Joint *rootJoint() const;
     QModelIndex indexOf(Joint *joint, int column) const;
+    AnimModel *animModel() const;
 
-public slots:
+private slots:
     void onAnimInserted(Anim *anim);
     void onAnimRemoved(Anim *anim);
     void onAnimChanged(Anim *anim);
@@ -49,6 +51,7 @@ private:
     void beginInsertJoints(Joint *parent, int row, int count);
     void endInsertJoints();
 
+    AnimModel *m_animModel;
     Joint *m_root;
 };
 
