@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
     av->setModel(am);
     JointTreeView *jv = new JointTreeView;
     jv->setModel(jm);
-    jv->showAnimColumn(anim);
+//    jv->showAnimColumn(anim);
 
-    jv->connect(av, SIGNAL(currentAnimChanged(Anim*,Anim*)), jv, SLOT(showAnimColumn(Anim*)));
+    jv->connect(av, SIGNAL(currentAnimChanged(Anim*,Anim*)), jv, SLOT(onCurrentAnimChanged(Anim*,Anim*)));
 
     QSplitter s;
     s.addWidget(av);

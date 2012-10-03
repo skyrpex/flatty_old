@@ -18,6 +18,7 @@ signals:
 
 public slots:
     void showAnimColumn(Anim *anim);
+    void onCurrentAnimChanged(Anim *current, Anim *previous);
 
 private:
     JointModel *m_model;

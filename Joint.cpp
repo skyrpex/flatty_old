@@ -214,7 +214,7 @@ void Joint::setName(const QString &name)
     if(m_model) m_model->emitDataChanged(this, JointModel::NameColumn);
 }
 
-AnimMap Joint::anims() const
+AnimMap Joint::animMap() const
 {
     return m_anims;
 }
