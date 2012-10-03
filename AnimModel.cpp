@@ -13,7 +13,17 @@ AnimModel::AnimModel(QObject *parent) :
 
 AnimModel::~AnimModel()
 {
-    qDeleteAll(m_animations);
+    if(!m_animations.isEmpty())
+    {
+        beginRemoveRows(QModelIndex(), 0, m_animations.count()-1);
+        foreach(Anim *anim, m_animations)
+        {
+            anim->m_model = NULL;
+            delete anim;
+        }
+        m_animations.clear();
+        endRemoveRows();
+    }
 }
 
 QList<Anim *> AnimModel::anims() const
@@ -32,8 +42,8 @@ void AnimModel::insertAnim(int row, Anim *anim)
         return;
 
     beginInsertRows(QModelIndex(), row, row);
-    anim->m_model = this;
     m_animations.insert(row, anim);
+    anim->m_model = this;
     endInsertRows();
 
     emit animInserted(anim);
@@ -53,7 +63,7 @@ Anim *AnimModel::takeAnim(int row)
     beginRemoveRows(QModelIndex(), row, row);
     Anim *anim = m_animations.takeAt(row);
     anim->m_model = NULL;
-    endInsertRows();
+    endRemoveRows();
 
     emit animRemoved(anim);
     return anim;
