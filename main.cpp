@@ -4,6 +4,7 @@
 #include "AnimModel.h"
 #include "Anim.h"
 #include "JointModel.h"
+#include "Joint.h"
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +33,8 @@ int main(int argc, char *argv[])
     s.show();
 
     delete anim;
+
+    Joint *j = new Joint("Savarage", jm->rootJoint());
 
     return a.exec();
 }

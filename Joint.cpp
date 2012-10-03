@@ -50,6 +50,16 @@ Joint::~Joint()
 Joint *Joint::clone() const
 {
     Joint *joint = new Joint(m_name);
+    for(AnimMap::ConstIterator it = m_anims.begin(); it != m_anims.end(); ++it)
+    {
+        KeyFrameMap *clonedKeyFrameMap = new KeyFrameMap;
+        KeyFrameMap *keyFrames = it.value();
+        for(KeyFrameMap::ConstIterator kt = keyFrames->begin(); kt != keyFrames->end(); ++kt)
+        {
+            clonedKeyFrameMap->insert(kt.key(), new int(*kt.value()));
+        }
+        joint->m_anims.insert(it.key(), clonedKeyFrameMap);
+    }
 
     foreach(Joint *child, m_children)
         joint->addChild(child->clone());
@@ -92,6 +102,7 @@ void Joint::insertChild(int index, Joint *child)
     {
         Joint *i = stack.pop();
         i->m_model = m_model;
+        syncAnims(i);
         foreach(Joint *c, i->children())
             stack.push(c);
     }
@@ -155,6 +166,7 @@ void Joint::insertChildren(int index, const QList<Joint*> &children)
         {
             Joint *i = stack.pop();
             i->m_model = m_model;
+            syncAnims(i);
             foreach(Joint *c, i->children())
                 stack.push(c);
         }
@@ -200,4 +212,21 @@ void Joint::setName(const QString &name)
 {
     m_name = name;
     if(m_model) m_model->emitDataChanged(this, JointModel::NameColumn);
+}
+
+void Joint::syncAnims(Joint *joint)
+{
+    foreach(Anim *anim, joint->m_anims.keys())
+    {
+        if(!m_anims.contains(anim))
+        {
+            KeyFrameMap *keyFrames = joint->m_anims.take(anim);
+            qDeleteAll(keyFrames->values());
+            delete joint->m_anims.take(anim);
+        }
+    }
+
+    foreach(Anim *anim, m_anims.keys())
+        if(!joint->m_anims.contains(anim))
+            joint->m_anims.insert(anim, new KeyFrameMap);
 }
