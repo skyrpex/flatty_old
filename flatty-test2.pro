@@ -15,13 +15,15 @@ SOURCES += main.cpp \
     Anim.cpp \
     Joint.cpp \
     JointModel.cpp \
-    JointTreeView.cpp
+    JointTreeView.cpp \
+    AnimTreeView.cpp
 
 HEADERS  += \
     AnimModel.h \
     Anim.h \
     Joint.h \
     JointModel.h \
-    JointTreeView.h
+    JointTreeView.h \
+    AnimTreeView.h
 
 FORMS    +=

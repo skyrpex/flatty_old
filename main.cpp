@@ -3,6 +3,7 @@
 #include <QSplitter>
 #include "AnimModel.h"
 #include "Anim.h"
+#include "AnimTreeView.h"
 #include "JointModel.h"
 #include "Joint.h"
 #include "JointTreeView.h"
@@ -24,11 +25,14 @@ int main(int argc, char *argv[])
     am->insertAnim(1, new Anim("Inasada", 40, 10));
     am->insertAnim(0, new Anim("Ungosni", 30, 0));
 
-    QTreeView *av = new QTreeView;
+    AnimTreeView *av = new AnimTreeView;
     av->setModel(am);
     JointTreeView *jv = new JointTreeView;
     jv->setModel(jm);
     jv->showAnimColumn(anim);
+
+    jv->connect(av, SIGNAL(currentAnimChanged(Anim*,Anim*)), jv, SLOT(showAnimColumn(Anim*)));
+
     QSplitter s;
     s.addWidget(av);
     s.addWidget(jv);
