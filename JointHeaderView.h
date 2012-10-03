@@ -13,7 +13,6 @@ public:
 
 public slots:
     void setCurrentFrame(int frame);
-    void setFrameCount(int frameCount);
 
 signals:
     void currentFrameChanged(int frame);
@@ -27,7 +26,6 @@ private:
     void updateCurrentFrame(const QPoint &pos);
 
     int m_currentFrame;
-    int m_frameCount;
 };
 
 #endif // JOINTHEADERVIEW_H

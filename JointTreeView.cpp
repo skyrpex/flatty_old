@@ -28,7 +28,7 @@ void JointTreeView::setModel(QAbstractItemModel *model)
     Q_ASSERT(m_model || !model);
     QTreeView::setModel(model);
 
-    // Hide anim columns
+    // Hide all columns
     Joint *joint = m_model->rootJoint();
     for(int i = 0; i < joint->animMap().count(); ++i)
         hideColumn(JointModel::AnimColumn+i);
@@ -39,7 +39,6 @@ void JointTreeView::showAnimColumn(Anim *anim)
     if(!m_model) return;
 
     m_header->setCurrentFrame(0);
-    m_header->setFrameCount(anim->frameCount());
 
     Joint *joint = m_model->rootJoint();
     for(int i = 0; i < joint->animMap().count(); ++i)

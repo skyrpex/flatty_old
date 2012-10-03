@@ -17,8 +17,7 @@ static const int FramesInARow = 5;
 
 JointHeaderView::JointHeaderView(QWidget *parent) :
     QHeaderView(Qt::Horizontal, parent),
-    m_currentFrame(0),
-    m_frameCount(0)
+    m_currentFrame(0)
 {
     // Make sure a scrollbar appears
     setResizeMode(ResizeToContents);
@@ -38,11 +37,6 @@ void JointHeaderView::setCurrentFrame(int frame)
         viewport()->update();
         emit currentFrameChanged(m_currentFrame);
     }
-}
-
-void JointHeaderView::setFrameCount(int frameCount)
-{
-    m_frameCount = frameCount;
 }
 
 void JointHeaderView::paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const
@@ -68,7 +62,7 @@ void JointHeaderView::paintSection(QPainter *painter, const QRect &rect, int log
     QVector<QLineF> lines(frameCount+1);
     for(int i = 0; i <= frameCount; ++i)
     {
-        int x = i*FrameWidth-1;
+        int x = i*FrameWidth;
         lines[i] = QLineF(x, rect.height()-6, x, rect.height()-2);
     }
     painter->drawLines(lines);
@@ -88,7 +82,7 @@ void JointHeaderView::paintSection(QPainter *painter, const QRect &rect, int log
     painter->drawText(frameRect, Qt::AlignVCenter, QString::number(1));
     for(int i = 5; i <= frameCount; i += 5)
     {
-        frameRect.moveLeft(i*FrameWidth);
+        frameRect.moveLeft((i-1)*FrameWidth);
         painter->drawText(frameRect, Qt::AlignVCenter, QString::number(i));
     }
 
@@ -117,5 +111,6 @@ void JointHeaderView::updateCurrentFrame(const QPoint &pos)
 
     int x = pos.x() + offset() - sectionPosition(logicalIndex);
     int frame = (0.5+x)/FrameWidth;
-    setCurrentFrame(qBound(0, frame, m_frameCount-1));
+    int frameCount = sectionSize(logicalIndex)/FrameWidth;
+    setCurrentFrame(qBound(0, frame, frameCount-1));
 }

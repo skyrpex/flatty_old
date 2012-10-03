@@ -17,7 +17,10 @@ SOURCES += main.cpp \
     JointHeaderView.cpp \
     KeyFramesEditor.cpp \
     KeyFrameMime.cpp \
-    KeyFrameItem.cpp
+    KeyFrameItem.cpp \
+    MainWindow.cpp \
+    widgets/TimeWidget.cpp \
+    widgets/AnimWidget.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -32,7 +35,10 @@ HEADERS  += \
     JointHeaderView.h \
     KeyFramesEditor.h \
     KeyFrameMime.h \
-    KeyFrameItem.h
+    KeyFrameItem.h \
+    MainWindow.h \
+    widgets/TimeWidget.h \
+    widgets/AnimWidget.h
 
 FORMS    +=
 
