@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     JointModel.cpp \
     JointTreeView.cpp \
     AnimTreeView.cpp \
-    Transform.cpp
+    Transform.cpp \
+    JointDelegate.cpp \
+    KeyFrames.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -26,6 +28,11 @@ HEADERS  += \
     JointModel.h \
     JointTreeView.h \
     AnimTreeView.h \
-    Transform.h
+    Transform.h \
+    JointDelegate.h \
+    KeyFrames.h
 
 FORMS    +=
+
+RESOURCES += \
+    images.qrc

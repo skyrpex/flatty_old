@@ -3,13 +3,14 @@
 
 #include <QString>
 #include <QMap>
+#include <QMetaType>
 
 class AnimModel;
 class Transform;
 class Anim;
+class KeyFrames;
 
-typedef QMap<int, Transform*> KeyFrameMap;
-typedef QMap<Anim *, KeyFrameMap*> AnimMap;
+typedef QMap<Anim *, KeyFrames*> AnimMap;
 
 class Anim
 {
@@ -34,5 +35,7 @@ private:
     int m_frameCount;
     int m_fps;
 };
+
+Q_DECLARE_METATYPE(Anim*)
 
 #endif // ANIM_H

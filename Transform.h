@@ -2,6 +2,7 @@
 #define TRANSFORM_H
 
 #include <QtGlobal>
+#include <QMetaType>
 
 class Transform
 {
@@ -15,6 +16,8 @@ public:
     qreal rotation;
     qreal length;
 };
+
+Q_DECLARE_METATYPE(Transform*)
 
 inline Transform operator+(const Transform &a, const Transform &b)
 {

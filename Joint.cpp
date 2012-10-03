@@ -1,6 +1,7 @@
 #include "Joint.h"
 #include "JointModel.h"
 #include "Transform.h"
+#include "KeyFrames.h"
 #include <QDebug>
 #include <QStack>
 
@@ -34,9 +35,8 @@ Joint::~Joint()
     }
 
     // Free animations
-    foreach(KeyFrameMap *map, m_anims.values())
-        qDeleteAll(map->values());
     qDeleteAll(m_anims.keys());
+    qDeleteAll(m_anims);
 
     // Delete the children
     foreach(Joint *child, m_children)
@@ -51,16 +51,16 @@ Joint::~Joint()
 Joint *Joint::clone() const
 {
     Joint *joint = new Joint(m_name);
-    for(AnimMap::ConstIterator it = m_anims.begin(); it != m_anims.end(); ++it)
-    {
-        KeyFrameMap *clonedKeyFrameMap = new KeyFrameMap;
-        KeyFrameMap *keyFrames = it.value();
-        for(KeyFrameMap::ConstIterator kt = keyFrames->begin(); kt != keyFrames->end(); ++kt)
-        {
-            clonedKeyFrameMap->insert(kt.key(), new Transform(*kt.value()));
-        }
-        joint->m_anims.insert(it.key(), clonedKeyFrameMap);
-    }
+//    for(AnimMap::ConstIterator it = m_anims.begin(); it != m_anims.end(); ++it)
+//    {
+//        KeyFrameMap *clonedKeyFrameMap = new KeyFrameMap;
+//        KeyFrameMap *keyFrames = it.value();
+//        for(KeyFrameMap::ConstIterator kt = keyFrames->begin(); kt != keyFrames->end(); ++kt)
+//        {
+//            clonedKeyFrameMap->insert(kt.key(), new Transform(*kt.value()));
+//        }
+//        joint->m_anims.insert(it.key(), clonedKeyFrameMap);
+//    }
 
     foreach(Joint *child, m_children)
         joint->addChild(child->clone());
@@ -226,13 +226,13 @@ void Joint::syncAnims(Joint *joint)
     {
         if(!m_anims.contains(anim))
         {
-            KeyFrameMap *keyFrames = joint->m_anims.take(anim);
-            qDeleteAll(keyFrames->values());
+//            KeyFrameMap *keyFrames = joint->m_anims.take(anim);
+//            qDeleteAll(keyFrames->values());
             delete joint->m_anims.take(anim);
         }
     }
 
     foreach(Anim *anim, m_anims.keys())
         if(!joint->m_anims.contains(anim))
-            joint->m_anims.insert(anim, new KeyFrameMap);
+            joint->m_anims.insert(anim, new KeyFrames);
 }

@@ -2,6 +2,7 @@
 #include "Joint.h"
 #include "Anim.h"
 #include "Transform.h"
+#include "KeyFrames.h"
 #include <QSize>
 #include <QVariant>
 #include <QDebug>
@@ -29,23 +30,25 @@ QVariant JointModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     Joint *joint = static_cast<Joint*>(index.internalPointer());
-    if(role == Qt::DisplayRole || role == Qt::EditRole)
+    switch(index.column())
     {
-        int column = index.column();
-        if(column == NameColumn)
+    case NameColumn:
+        if(role == Qt::DisplayRole || role == Qt::EditRole)
             return joint->name();
-        else
-        {
-            int animID = column - AnimColumn;
-            if(inRange(0, animID, joint->m_anims.count()))
-            {
-                Anim *anim = joint->m_anims.keys().at(animID);
-                return anim->name();
+        break;
 
-//                KeyFrames *keyFrames = joint->m_anims.values().at(animID);
-//                return QVariant::fromValue(keyFrames);
-            }
+    default:
+    {
+        int animID = index.column() - AnimColumn;
+        if(inRange(0, animID, joint->m_anims.count()))
+        {
+            if(role == Qt::DisplayRole || role == Qt::EditRole)
+                return QVariant::fromValue(joint->m_anims.values().at(animID));
+            else if(role == AnimRole)
+                return QVariant::fromValue(joint->m_anims.keys().at(animID));
         }
+    }
+        break;
     }
 
     return QVariant();
@@ -206,9 +209,7 @@ void JointModel::onAnimInserted(Anim *anim)
     while(!stack.isEmpty())
     {
         Joint *joint = stack.pop();
-        KeyFrameMap *keyFrames = new KeyFrameMap;
-        keyFrames->insert(0, new Transform);
-        joint->m_anims.insert(anim, keyFrames);
+        joint->m_anims.insert(anim, new KeyFrames);
         foreach(Joint *child, joint->children())
             stack.push(child);
     }

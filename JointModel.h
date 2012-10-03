@@ -15,6 +15,10 @@ public:
         NameColumn,
         AnimColumn
     };
+    enum Role
+    {
+        AnimRole = Qt::UserRole + 10
+    };
 
     explicit JointModel(QObject *parent = 0);
 

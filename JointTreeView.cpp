@@ -1,10 +1,12 @@
 #include "JointTreeView.h"
 #include "JointModel.h"
 #include "Joint.h"
+#include "JointDelegate.h"
 
 JointTreeView::JointTreeView(QWidget *parent) :
     QTreeView(parent)
 {
+    setItemDelegate(new JointDelegate);
 }
 
 void JointTreeView::setModel(QAbstractItemModel *model)
