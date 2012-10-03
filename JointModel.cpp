@@ -150,21 +150,10 @@ bool JointModel::setData(const QModelIndex &index, const QVariant &value, int ro
     Joint *joint = static_cast<Joint*>(index.internalPointer());
     if(role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        int column = index.column();
-        if(column == NameColumn)
+        if(index.column() == NameColumn)
         {
             joint->setName(value.toString());
             return true;
-        }
-        else
-        {
-            int animID = column - AnimColumn;
-            if(inRange(0, animID, joint->m_anims.count()))
-            {
-                Anim *anim = joint->m_anims.keys().at(animID);
-                anim->setName(value.toString());
-                return true;
-            }
         }
     }
     return false;
