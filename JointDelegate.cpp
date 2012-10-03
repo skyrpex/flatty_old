@@ -46,7 +46,7 @@ void JointDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 QSize JointDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QSize size(8, 20) /*= AnimEditor::frameSize()*/;
-    if(index.data().canConvert<Anim *>())
+    if(index.data().canConvert<KeyFrames *>())
     {
         Anim *anim = index.data(JointModel::AnimRole).value<Anim *>();
         if(anim)
