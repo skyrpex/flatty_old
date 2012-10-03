@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     KeyFrameItem.cpp \
     MainWindow.cpp \
     widgets/TimeWidget.cpp \
-    widgets/AnimWidget.cpp
+    widgets/AnimWidget.cpp \
+    dialogs/AnimDialog.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -38,9 +39,11 @@ HEADERS  += \
     KeyFrameItem.h \
     MainWindow.h \
     widgets/TimeWidget.h \
-    widgets/AnimWidget.h
+    widgets/AnimWidget.h \
+    dialogs/AnimDialog.h
 
-FORMS    +=
+FORMS    += \
+    dialogs/AnimDialog.ui
 
 RESOURCES += \
     images.qrc
