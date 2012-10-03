@@ -11,6 +11,11 @@ AnimModel::AnimModel(QObject *parent) :
 {
 }
 
+AnimModel::~AnimModel()
+{
+    qDeleteAll(m_animations);
+}
+
 void AnimModel::addAnim(Anim *anim)
 {
     insertAnim(m_animations.count(), anim);

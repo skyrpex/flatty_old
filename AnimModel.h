@@ -18,6 +18,7 @@ public:
     };
 
     explicit AnimModel(QObject *parent = 0);
+    ~AnimModel();
 
     void addAnim(Anim *anim);
     void insertAnim(int row, Anim *anim);

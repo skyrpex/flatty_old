@@ -22,6 +22,7 @@ public:
     };
 
     explicit JointModel(QObject *parent = 0);
+    ~JointModel();
 
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;

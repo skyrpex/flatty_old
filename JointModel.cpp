@@ -24,6 +24,13 @@ JointModel::JointModel(QObject *parent) :
     connect(m_animModel, SIGNAL(animChanged(Anim*)), SLOT(onAnimChanged(Anim*)));
 }
 
+JointModel::~JointModel()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    delete m_root;
+    endRemoveRows();
+}
+
 bool inRange(int min, int val, int max)
 {
     return ( min <= val && val <= max );
