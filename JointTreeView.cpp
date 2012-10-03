@@ -9,6 +9,7 @@ JointTreeView::JointTreeView(QWidget *parent) :
 
 void JointTreeView::setModel(QAbstractItemModel *model)
 {
+    // Be sure that the models we receive are joint models
     m_model = qobject_cast<JointModel *>(model);
     Q_ASSERT(m_model || !model);
     QTreeView::setModel(model);
