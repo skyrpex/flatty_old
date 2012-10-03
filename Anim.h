@@ -5,9 +5,10 @@
 #include <QMap>
 
 class AnimModel;
+class Transform;
 class Anim;
 
-typedef QMap<int, int*> KeyFrameMap;
+typedef QMap<int, Transform*> KeyFrameMap;
 typedef QMap<Anim *, KeyFrameMap*> AnimMap;
 
 class Anim

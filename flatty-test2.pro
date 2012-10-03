@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     Joint.cpp \
     JointModel.cpp \
     JointTreeView.cpp \
-    AnimTreeView.cpp
+    AnimTreeView.cpp \
+    Transform.cpp
 
 HEADERS  += \
     AnimModel.h \
@@ -24,6 +25,7 @@ HEADERS  += \
     Joint.h \
     JointModel.h \
     JointTreeView.h \
-    AnimTreeView.h
+    AnimTreeView.h \
+    Transform.h
 
 FORMS    +=

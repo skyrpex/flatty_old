@@ -1,5 +1,6 @@
 #include "Joint.h"
 #include "JointModel.h"
+#include "Transform.h"
 #include <QDebug>
 #include <QStack>
 
@@ -56,7 +57,7 @@ Joint *Joint::clone() const
         KeyFrameMap *keyFrames = it.value();
         for(KeyFrameMap::ConstIterator kt = keyFrames->begin(); kt != keyFrames->end(); ++kt)
         {
-            clonedKeyFrameMap->insert(kt.key(), new int(*kt.value()));
+            clonedKeyFrameMap->insert(kt.key(), new Transform(*kt.value()));
         }
         joint->m_anims.insert(it.key(), clonedKeyFrameMap);
     }

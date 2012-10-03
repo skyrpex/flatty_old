@@ -1,6 +1,7 @@
 #include "JointModel.h"
 #include "Joint.h"
 #include "Anim.h"
+#include "Transform.h"
 #include <QSize>
 #include <QVariant>
 #include <QDebug>
@@ -206,7 +207,7 @@ void JointModel::onAnimInserted(Anim *anim)
     {
         Joint *joint = stack.pop();
         KeyFrameMap *keyFrames = new KeyFrameMap;
-        keyFrames->insert(0, new int(69));
+        keyFrames->insert(0, new Transform);
         joint->m_anims.insert(anim, keyFrames);
         foreach(Joint *child, joint->children())
             stack.push(child);
