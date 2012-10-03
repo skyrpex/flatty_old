@@ -18,8 +18,16 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
+signals:
+    void currentFrameChanged(int frame);
+
+private slots:
+    void setCurrentFrame(int frame);
+
 private:
     void paintAnim(QPainter *painter, const QStyleOptionViewItem &option, Anim *anim, KeyFrames *keyFrames) const;
+
+    int m_currentFrame;
 };
 
 #endif // JOINTDELEGATE_H

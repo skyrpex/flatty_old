@@ -6,14 +6,19 @@
 
 JointTreeView::JointTreeView(QWidget *parent) :
     QTreeView(parent),
-    m_model(NULL)
+    m_model(NULL),
+    m_header(new JointHeaderView),
+    m_delegate(new JointDelegate)
 {
-    setItemDelegate(new JointDelegate);
-    setHeader(new JointHeaderView);
+    setItemDelegate(m_delegate);
+    setHeader(m_header);
     setAutoScroll(false);
     setMouseTracking(true);
 
     connect(this, SIGNAL(entered(QModelIndex)), SLOT(onEntered(QModelIndex)));
+    connect(m_delegate, SIGNAL(currentFrameChanged(int)), m_header, SLOT(setCurrentFrame(int)));
+    connect(m_header, SIGNAL(currentFrameChanged(int)), m_delegate, SLOT(setCurrentFrame(int)));
+    connect(m_header, SIGNAL(currentFrameChanged(int)), SLOT(onCurrentFrameChanged()));
 }
 
 void JointTreeView::setModel(QAbstractItemModel *model)
@@ -33,6 +38,8 @@ void JointTreeView::showAnimColumn(Anim *anim)
 {
     if(!m_model) return;
 
+    m_header->setCurrentFrame(0);
+
     Joint *joint = m_model->rootJoint();
     for(int i = 0; i < joint->animMap().count(); ++i)
         hideColumn(JointModel::AnimColumn+i);
@@ -48,6 +55,11 @@ void JointTreeView::onCurrentAnimChanged(Anim *current, Anim *previous)
 
     if(previous) hideColumn(JointModel::AnimColumn+anims.indexOf(previous));
     if(current) showColumn(JointModel::AnimColumn+anims.indexOf(current));
+}
+
+void JointTreeView::onCurrentFrameChanged()
+{
+    viewport()->update();
 }
 
 void JointTreeView::onEntered(const QModelIndex &index)

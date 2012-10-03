@@ -5,6 +5,8 @@
 
 class JointModel;
 class Anim;
+class JointHeaderView;
+class JointDelegate;
 
 class JointTreeView : public QTreeView
 {
@@ -14,17 +16,18 @@ public:
 
     void setModel(QAbstractItemModel *model);
 
-signals:
-
 public slots:
     void showAnimColumn(Anim *anim);
     void onCurrentAnimChanged(Anim *current, Anim *previous);
 
 private slots:
     void onEntered(const QModelIndex &index);
+    void onCurrentFrameChanged();
 
 private:
     JointModel *m_model;
+    JointHeaderView *m_header;
+    JointDelegate *m_delegate;
     QModelIndex m_openEditorIndex;
 };
 

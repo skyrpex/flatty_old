@@ -2,9 +2,12 @@
 #define KEYFRAMESEDITOR_H
 
 #include <QGraphicsView>
+#include <QList>
 #include "KeyFrames.h"
 
 class QGraphicsPixmapItem;
+class QGraphicsLineItem;
+class KeyFrameItem;
 
 class KeyFramesEditor : public QGraphicsView
 {
@@ -14,12 +17,19 @@ public:
 
     QSize sizeHint() const;
 
-    void setData(KeyFrameMap *keyFrames, int frameCount);
+    void setData(KeyFrameMap *keyFrames, int frameCount, int currentFrame);
+
+signals:
+    void currentFrameChanged(int frame);
+
+public slots:
+    void setCurrentFrame(int frame);
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
     void contextMenuEvent(QContextMenuEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dragLeaveEvent(QDragLeaveEvent *event);
@@ -33,7 +43,9 @@ private:
 
     KeyFrameMap *m_keyFrames;
     int m_frameCount;
+    QList<KeyFrameItem *> m_keyFrameItems;
     QGraphicsPixmapItem *m_dragItem;
+    QGraphicsLineItem *m_lineItem;
 };
 
 #endif // KEYFRAMESEDITOR_H

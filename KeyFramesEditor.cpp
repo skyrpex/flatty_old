@@ -16,12 +16,15 @@
 
 static const int FrameWidth = 8;
 static const int FrameHeight = 20;
+static const QPen LinePeN(QColor(250, 0, 0), 1);
+static const int LineOffset = 3;
 
 KeyFramesEditor::KeyFramesEditor(QWidget *parent) :
     QGraphicsView(new QGraphicsScene, parent),
     m_keyFrames(NULL),
     m_frameCount(0),
-    m_dragItem(new QGraphicsPixmapItem)
+    m_dragItem(new QGraphicsPixmapItem),
+    m_lineItem(new QGraphicsLineItem(LineOffset, 0, LineOffset, FrameHeight))
 {
     setDisabled(true);
 
@@ -39,6 +42,10 @@ KeyFramesEditor::KeyFramesEditor(QWidget *parent) :
     m_dragItem->setZValue(1);
     m_dragItem->setVisible(false);
     scene()->addItem(m_dragItem);
+
+    m_lineItem->setPen(LinePeN);
+    m_lineItem->setZValue(2);
+    scene()->addItem(m_lineItem);
 }
 
 QSize KeyFramesEditor::sizeHint() const
@@ -49,20 +56,33 @@ QSize KeyFramesEditor::sizeHint() const
     return QGraphicsView::sizeHint();
 }
 
-void KeyFramesEditor::setData(KeyFrameMap *keyFrames, int frameCount)
+void KeyFramesEditor::setData(KeyFrameMap *keyFrames, int frameCount, int currentFrame)
 {
     m_keyFrames = keyFrames;
     m_frameCount = frameCount;
+    m_lineItem->setPos(currentFrame*FrameWidth, 0);
 
-    scene()->removeItem(m_dragItem);
-    scene()->clear();
-    scene()->addItem(m_dragItem);
+    qDeleteAll(m_keyFrameItems);
+    m_keyFrameItems.clear();
     setEnabled(keyFrames);
     if(keyFrames)
     {
         setSceneRect(QRectF(QPointF(), QSizeF(frameCount*FrameWidth, FrameHeight)));
         foreach(int frame, keyFrames->keys())
-            scene()->addItem(new KeyFrameItem(frame*FrameWidth));
+        {
+            KeyFrameItem *item = new KeyFrameItem(frame*FrameWidth);
+            m_keyFrameItems.append(item);
+            scene()->addItem(item);
+        }
+    }
+}
+
+void KeyFramesEditor::setCurrentFrame(int frame)
+{
+    if(m_lineItem->x()/FrameWidth != frame)
+    {
+        m_lineItem->setPos(frame*FrameWidth, 0);
+        emit currentFrameChanged(frame);
     }
 }
 
@@ -117,8 +137,17 @@ void KeyFramesEditor::contextMenuEvent(QContextMenuEvent *event)
 
 void KeyFramesEditor::mousePressEvent(QMouseEvent *event)
 {
-    if(frameAt(event->pos()) > 0)
+    int frame = frameAt(event->pos());
+    if(frame > 0)
         QGraphicsView::mousePressEvent(event);
+    setCurrentFrame(frame);
+}
+
+void KeyFramesEditor::mouseMoveEvent(QMouseEvent *event)
+{
+    QGraphicsView::mouseMoveEvent(event);
+    if(event->buttons() & Qt::LeftButton)
+        setCurrentFrame(frameAt(event->pos()));
 }
 
 void KeyFramesEditor::mouseReleaseEvent(QMouseEvent *event)

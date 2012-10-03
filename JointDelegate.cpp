@@ -10,16 +10,24 @@
 #include <QPainter>
 
 static const QSize MinimumSizeHint(0, 20);
+static const QPen LinePeN(QColor(250, 0, 0), 1);
+static const int LineOffset = 3;
 
 JointDelegate::JointDelegate(QObject *parent) :
-    QStyledItemDelegate(parent)
+    QStyledItemDelegate(parent),
+    m_currentFrame(0)
 {
 }
 
 QWidget *JointDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if(index.data().canConvert<KeyFrames *>())
-        return new KeyFramesEditor(parent);
+    {
+        KeyFramesEditor *editor = new KeyFramesEditor(parent);
+        connect(editor, SIGNAL(currentFrameChanged(int)), SLOT(setCurrentFrame(int)));
+        connect(this, SIGNAL(currentFrameChanged(int)), editor, SLOT(setCurrentFrame(int)));
+        return editor;
+    }
 
     return QStyledItemDelegate::createEditor(parent, option, index);
 }
@@ -31,7 +39,7 @@ void JointDelegate::setEditorData(QWidget *editor, const QModelIndex &index) con
         Anim *anim = index.data(JointModel::AnimRole).value<Anim *>();
         KeyFrames *keyFrames = index.data().value<KeyFrames *>();
         KeyFramesEditor *keyFramesEditor = qobject_cast<KeyFramesEditor *>(editor);
-        keyFramesEditor->setData(keyFrames->data, anim->frameCount());
+        keyFramesEditor->setData(keyFrames->data, anim->frameCount(), m_currentFrame);
     }
     else
         QStyledItemDelegate::setEditorData(editor, index);
@@ -72,11 +80,16 @@ void JointDelegate::paintAnim(QPainter *painter, const QStyleOptionViewItem &opt
     {
         foreach(int frame, keyFrames->data->keys())
         {
-            int x = frame*pixmap.size().width();
+            int x = frame*pixmap.width();
             QRectF rect(QPointF(x, 0), pixmap.size());
             painter->fillRect(rect, pixmap);
         }
     }
+
+    // Draw time marker
+    int x = LineOffset + m_currentFrame*pixmap.width();
+    painter->setPen(LinePeN);
+    painter->drawLine(x, 0, x, pixmap.height()-1);
     painter->restore();
 
     // Disabled & offseted frames
@@ -85,11 +98,20 @@ void JointDelegate::paintAnim(QPainter *painter, const QStyleOptionViewItem &opt
 
     // Ofsetted frames are darker
     QBrush brush(option.palette.base().color().darker(120));
-    int xOffset = (anim? anim->frameCount() : 0)*pixmap.size().width();
+    int xOffset = (anim? anim->frameCount() : 0)*pixmap.width();
     QRectF rect = option.rect.adjusted(xOffset, 0, 0, 0);
     painter->fillRect(rect, brush);
 
     // Gray out if disabled
     painter->fillRect(option.rect, option.palette.base());
     painter->restore();
+}
+
+void JointDelegate::setCurrentFrame(int frame)
+{
+    if(m_currentFrame != frame)
+    {
+        m_currentFrame = frame;
+        emit currentFrameChanged(frame);
+    }
 }
