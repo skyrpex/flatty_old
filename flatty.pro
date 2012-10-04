@@ -9,8 +9,6 @@ SOURCES += main.cpp \
     Anim.cpp \
     Joint.cpp \
     JointModel.cpp \
-    JointTreeView.cpp \
-    AnimTreeView.cpp \
     Transform.cpp \
     JointDelegate.cpp \
     KeyFrames.cpp \
@@ -28,8 +26,6 @@ HEADERS  += \
     Anim.h \
     Joint.h \
     JointModel.h \
-    JointTreeView.h \
-    AnimTreeView.h \
     Transform.h \
     JointDelegate.h \
     KeyFrames.h \
