@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     MainWindow.cpp \
     widgets/TimeWidget.cpp \
     widgets/AnimWidget.cpp \
-    dialogs/AnimDialog.cpp
+    dialogs/AnimDialog.cpp \
+    Application.cpp
 
 HEADERS  += \
     model/AnimModel.h \
@@ -36,7 +37,9 @@ HEADERS  += \
     MainWindow.h \
     widgets/TimeWidget.h \
     widgets/AnimWidget.h \
-    dialogs/AnimDialog.h
+    dialogs/AnimDialog.h \
+    Application.h \
+    Constants.h
 
 FORMS    += \
     dialogs/AnimDialog.ui
