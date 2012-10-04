@@ -38,9 +38,9 @@ public:
     AnimModel *animModel() const;
 
 private slots:
-    void onAnimInserted(Anim *anim);
-    void onAnimRemoved(Anim *anim);
-    void onAnimChanged(Anim *anim);
+    void onAnimsInserted(const QModelIndex &parent, int first, int last);
+    void onAnimsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
+    void onAnimsChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 private:
     friend class Joint;

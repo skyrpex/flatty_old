@@ -19,9 +19,9 @@ JointModel::JointModel(QObject *parent) :
     m_root(new Joint(tr(RootText)))
 {
     m_root->m_model = this;
-    connect(m_animModel, SIGNAL(animInserted(Anim*)), SLOT(onAnimInserted(Anim*)));
-    connect(m_animModel, SIGNAL(animRemoved(Anim*)), SLOT(onAnimRemoved(Anim*)));
-    connect(m_animModel, SIGNAL(animChanged(Anim*)), SLOT(onAnimChanged(Anim*)));
+    connect(m_animModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(onAnimsInserted(QModelIndex,int,int)));
+    connect(m_animModel, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), SLOT(onAnimsAboutToBeRemoved(QModelIndex,int,int)));
+    connect(m_animModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(onAnimsChanged(QModelIndex,QModelIndex)));
 }
 
 JointModel::~JointModel()
@@ -207,46 +207,49 @@ AnimModel *JointModel::animModel() const
     return m_animModel;
 }
 
-void JointModel::onAnimInserted(Anim *anim)
+void JointModel::onAnimsInserted(const QModelIndex &parent, int first, int last)
 {
-    int column = m_root->m_anims.count();
-    beginInsertColumns(QModelIndex(), column, column);
-
+    Q_UNUSED(parent);
+    beginInsertColumns(QModelIndex(), JointModel::AnimColumn+first, JointModel::AnimColumn+last);
     QStack<Joint *> stack;
     stack.push(m_root);
     while(!stack.isEmpty())
     {
         Joint *joint = stack.pop();
-        joint->m_anims.insert(anim, new KeyFrames);
+        for(int i = first; i <= last; ++i)
+        {
+            Anim *anim = m_animModel->anims().at(i);
+            joint->m_anims.insert(anim, new KeyFrames);
+        }
+
         foreach(Joint *child, joint->children())
             stack.push(child);
     }
-
     endInsertColumns();
 }
 
-void JointModel::onAnimRemoved(Anim *anim)
+void JointModel::onAnimsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
 {
-    int column = JointModel::AnimColumn + m_root->m_anims.keys().indexOf(anim);
-    beginRemoveColumns(QModelIndex(), column, column);
-
+    Q_UNUSED(parent);
+    beginRemoveColumns(QModelIndex(), JointModel::AnimColumn+first, JointModel::AnimColumn+last);
     QStack<Joint *> stack;
     stack.push(m_root);
     while(!stack.isEmpty())
     {
         Joint *joint = stack.pop();
-        delete joint->m_anims.take(anim);
+        for(int i = first; i <= last; ++i)
+            delete joint->m_anims.take(m_animModel->anims().at(i));
+
         foreach(Joint *child, joint->children())
             stack.push(child);
     }
-
     endRemoveColumns();
 }
 
-void JointModel::onAnimChanged(Anim *anim)
+void JointModel::onAnimsChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
-    int column = AnimColumn + m_root->m_anims.keys().indexOf(anim);
-    emit dataChanged(index(0, column), index(0, column));
+    emit dataChanged(index(0, AnimColumn+topLeft.row()),
+                     index(0, AnimColumn+bottomRight.row()));
 }
 
 void JointModel::emitDataChanged(Joint *joint, int column)
