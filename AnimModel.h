@@ -35,11 +35,6 @@ public:
     int columnCount(const QModelIndex &parent) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-signals:
-    void animInserted(Anim *anim);
-    void animRemoved(Anim *anim);
-    void animChanged(Anim *anim);
-
 private:
     friend class Anim;
     void emitAnimChanged(Anim *anim, Column column);

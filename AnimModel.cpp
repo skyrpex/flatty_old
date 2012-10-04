@@ -45,8 +45,6 @@ void AnimModel::insertAnim(int row, Anim *anim)
     m_animations.insert(row, anim);
     anim->m_model = this;
     endInsertRows();
-
-    emit animInserted(anim);
 }
 
 void AnimModel::removeAnim(Anim *anim)
@@ -64,7 +62,6 @@ Anim *AnimModel::takeAnim(int row)
     anim->m_model = NULL;
     endRemoveRows();
 
-    emit animRemoved(anim);
     return anim;
 }
 
@@ -145,19 +142,16 @@ bool AnimModel::setData(const QModelIndex &index, const QVariant &value, int rol
     case NameColumn:
         anim->setName(value.toString());
         emit dataChanged(index, index);
-        emit animChanged(anim);
         return true;
 
     case FrameCountColumn:
         anim->setFrameCount(value.toInt());
         emit dataChanged(index, index);
-        emit animChanged(anim);
         return true;
 
     case FpsColumn:
         anim->setFps(value.toInt());
         emit dataChanged(index, index);
-        emit animChanged(anim);
         return true;
 
     default:
@@ -169,5 +163,4 @@ void AnimModel::emitAnimChanged(Anim *anim, Column column)
 {
     QModelIndex i = index(m_animations.indexOf(anim), column, QModelIndex());
     emit dataChanged(i, i);
-    emit animChanged(anim);
 }
