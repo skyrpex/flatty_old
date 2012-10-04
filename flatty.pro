@@ -5,34 +5,34 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    AnimModel.cpp \
-    Anim.cpp \
-    Joint.cpp \
-    JointModel.cpp \
-    Transform.cpp \
-    JointDelegate.cpp \
-    KeyFrames.cpp \
-    JointHeaderView.cpp \
-    KeyFramesEditor.cpp \
-    KeyFrameMime.cpp \
-    KeyFrameItem.cpp \
+    model/AnimModel.cpp \
+    model/Anim.cpp \
+    model/Joint.cpp \
+    model/JointModel.cpp \
+    model/Transform.cpp \
+    model/JointDelegate.cpp \
+    model/KeyFrames.cpp \
+    model/JointHeaderView.cpp \
+    model/KeyFramesEditor.cpp \
+    model/KeyFrameMime.cpp \
+    model/KeyFrameItem.cpp \
     MainWindow.cpp \
     widgets/TimeWidget.cpp \
     widgets/AnimWidget.cpp \
     dialogs/AnimDialog.cpp
 
 HEADERS  += \
-    AnimModel.h \
-    Anim.h \
-    Joint.h \
-    JointModel.h \
-    Transform.h \
-    JointDelegate.h \
-    KeyFrames.h \
-    JointHeaderView.h \
-    KeyFramesEditor.h \
-    KeyFrameMime.h \
-    KeyFrameItem.h \
+    model/AnimModel.h \
+    model/Anim.h \
+    model/Joint.h \
+    model/JointModel.h \
+    model/Transform.h \
+    model/JointDelegate.h \
+    model/KeyFrames.h \
+    model/JointHeaderView.h \
+    model/KeyFramesEditor.h \
+    model/KeyFrameMime.h \
+    model/KeyFrameItem.h \
     MainWindow.h \
     widgets/TimeWidget.h \
     widgets/AnimWidget.h \
@@ -42,4 +42,4 @@ FORMS    += \
     dialogs/AnimDialog.ui
 
 RESOURCES += \
-    images.qrc
+    model/images/images.qrc

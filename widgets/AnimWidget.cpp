@@ -1,6 +1,6 @@
 #include "AnimWidget.h"
-#include "AnimModel.h"
-#include "Anim.h"
+#include "model/AnimModel.h"
+#include "model/Anim.h"
 #include "dialogs/AnimDialog.h"
 #include <QTreeView>
 #include <QListView>

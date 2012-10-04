@@ -1,7 +1,8 @@
 #include "MainWindow.h"
-#include "JointModel.h"
-#include "AnimModel.h"
-#include "Anim.h"
+#include "model/JointModel.h"
+#include "model/Joint.h"
+#include "model/AnimModel.h"
+#include "model/Anim.h"
 #include "widgets/TimeWidget.h"
 #include "widgets/AnimWidget.h"
 #include <QHBoxLayout>
@@ -19,4 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(t);
     layout->addWidget(a);
     setCentralWidget(widget);
+
+    new Joint("Caca", m_model->rootJoint());
 }

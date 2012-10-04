@@ -1,9 +1,9 @@
 #include "TimeWidget.h"
-#include "JointModel.h"
-#include "AnimModel.h"
-#include "Joint.h"
-#include "JointDelegate.h"
-#include "JointHeaderView.h"
+#include "model/JointModel.h"
+#include "model/AnimModel.h"
+#include "model/Joint.h"
+#include "model/JointDelegate.h"
+#include "model/JointHeaderView.h"
 #include <QTreeView>
 #include <QSplitter>
 #include <QVBoxLayout>
