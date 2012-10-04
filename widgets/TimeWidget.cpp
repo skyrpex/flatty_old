@@ -49,6 +49,7 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
 
     connect(m_model->animModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(updateColumnVisibility()));
     connect(m_model->animModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(updateColumnVisibility()));
+    connect(m_model->animModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(resetEditor()));
 
     QSplitter *splitter = new QSplitter;
     splitter->addWidget(m_nameView);
@@ -82,6 +83,11 @@ void TimeWidget::openEditor(const QModelIndex &index)
     }
 }
 
+void TimeWidget::resetEditor()
+{
+    openEditor(m_animView->currentIndex());
+}
+
 void TimeWidget::updateColumnVisibility()
 {
     for(int i = 0; i < 1+m_model->animModel()->anims().count(); ++i)
@@ -94,5 +100,5 @@ void TimeWidget::updateColumnVisibility()
     if(m_anim)
         m_animView->showColumn(JointModel::AnimColumn + m_model->animModel()->anims().indexOf(m_anim));
 
-    openEditor(m_animView->currentIndex());
+    resetEditor();
 }

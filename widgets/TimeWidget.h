@@ -21,6 +21,7 @@ public slots:
 
 private slots:
     void openEditor(const QModelIndex &index);
+    void resetEditor();
     void updateColumnVisibility();
 
 private:
