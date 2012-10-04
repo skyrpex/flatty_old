@@ -26,10 +26,7 @@ JointModel::JointModel(QObject *parent) :
 
 JointModel::~JointModel()
 {
-    beginRemoveRows(QModelIndex(), 0, 0);
     delete m_root;
-    m_root = NULL;
-    endRemoveRows();
 }
 
 bool inRange(int min, int val, int max)
@@ -142,7 +139,7 @@ int JointModel::rowCount(const QModelIndex &parent) const
 
 int JointModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 1+m_root->m_anims.count();
+    return 1+m_animModel->anims().count();
 }
 
 bool JointModel::setData(const QModelIndex &index, const QVariant &value, int role)
