@@ -1,5 +1,6 @@
 #include "KeyFrameItem.h"
 #include "KeyFrameMime.h"
+#include "Constants.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDrag>
 #include <QMimeData>
@@ -8,7 +9,7 @@
 
 KeyFrameItem::KeyFrameItem(qreal x)
 {
-    setPixmap(QPixmap(":/images/keyframe"));
+    setPixmap(QPixmap(KeyFramePixmap));
     setCacheMode(DeviceCoordinateCache);
     setCursor(Qt::ArrowCursor); // Strange bug fix: the first selected item will always be selected when mouse clicking
     setAcceptedMouseButtons(Qt::LeftButton);

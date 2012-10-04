@@ -4,6 +4,7 @@
 #include "KeyFrameMime.h"
 #include "Anim.h"
 #include "Transform.h"
+#include "Constants.h"
 #include <QPaintEvent>
 #include <QPainter>
 #include <QMouseEvent>
@@ -31,14 +32,14 @@ KeyFramesEditor::KeyFramesEditor(QWidget *parent) :
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setBackgroundBrush(QPixmap(":/images/background"));
+    setBackgroundBrush(QPixmap(KeyFrameBackgroundPixmap));
     setFrameStyle(NoFrame);
     setAcceptDrops(true);
 
     setMinimumHeight(FrameHeight);
     setMaximumHeight(FrameHeight);
 
-    m_dragItem->setPixmap(QPixmap(":/images/keyframe-drag"));
+    m_dragItem->setPixmap(QPixmap(KeyFrameDragPixmap));
     m_dragItem->setZValue(1);
     m_dragItem->setVisible(false);
     scene()->addItem(m_dragItem);
