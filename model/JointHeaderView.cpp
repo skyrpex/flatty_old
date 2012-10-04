@@ -6,15 +6,14 @@
 #include "JointModel.h"
 #include "AnimModel.h"
 #include "Anim.h"
+#include "Constants.h"
 
 //static const QBrush MarkerBrush(QColor(250, 160, 170));
 //static const QPen MarkerPen(QColor(200, 90, 90));
 static const QBrush MarkerBrush(QColor(250, 150, 150));
 static const QPen MarkerPen(QColor(250, 0, 0));
 
-static const int FrameWidth = 8;
 static const int FramesInARow = 5;
-
 static const int HeaderHeight = 28;
 
 JointHeaderView::JointHeaderView(QWidget *parent) :

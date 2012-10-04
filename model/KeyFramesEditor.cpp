@@ -15,8 +15,6 @@
 #include <QMenu>
 #include <cmath>
 
-static const int FrameWidth = 8;
-static const int FrameHeight = 20;
 static const QPen LinePeN(QColor(250, 0, 0), 1);
 static const int LineOffset = 3;
 
