@@ -227,7 +227,7 @@ void JointModel::onAnimInserted(Anim *anim)
 
 void JointModel::onAnimRemoved(Anim *anim)
 {
-    int column = m_root->m_anims.keys().indexOf(anim);
+    int column = JointModel::AnimColumn + m_root->m_anims.keys().indexOf(anim);
     beginRemoveColumns(QModelIndex(), column, column);
 
     QStack<Joint *> stack;
