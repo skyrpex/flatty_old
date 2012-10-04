@@ -248,6 +248,33 @@ void JointModel::onAnimsAboutToBeRemoved(const QModelIndex &parent, int first, i
 
 void JointModel::onAnimsChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
+    for(int i = topLeft.column(); i <= bottomRight.column(); ++i)
+    {
+        Anim *anim = m_animModel->anims().at(i-1);
+
+        QStack<Joint *> stack;
+        stack.push(m_root);
+        while(!stack.isEmpty())
+        {
+            Joint *joint = stack.pop();
+            KeyFrameMap *keyFrames = joint->animMap().value(anim)->data;
+            KeyFrameMap::Iterator it = keyFrames->begin();
+            while(it != keyFrames->end())
+            {
+                if(it.key() < anim->frameCount())
+                    ++it;
+                else
+                {
+                    delete it.value();
+                    it = keyFrames->erase(it);
+                }
+            }
+
+            foreach(Joint *child, joint->children())
+                stack.push(child);
+        }
+    }
+
     emit dataChanged(index(0, AnimColumn+topLeft.row()),
                      index(0, AnimColumn+bottomRight.row()));
 }
