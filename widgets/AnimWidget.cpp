@@ -30,8 +30,8 @@ AnimWidget::AnimWidget(AnimModel *model, QWidget *parent) :
     }
     layout->addWidget(m_view);
 
-    connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
-    connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(updateActions()));
+    connect(m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SIGNAL(currentChanged(QModelIndex,QModelIndex)));
+    connect(m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(updateActions()));
 
     updateActions();
 }
@@ -61,13 +61,7 @@ void AnimWidget::editAnim()
 
 void AnimWidget::removeAnim()
 {
-    Anim *anim = static_cast<Anim *>(m_view->currentIndex().internalPointer());
-    delete anim;
-}
-
-void AnimWidget::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous)
-{
-    emit currentAnimChanged(current.row(), previous.row());
+    delete static_cast<Anim *>(m_view->currentIndex().internalPointer());
 }
 
 void AnimWidget::updateActions()

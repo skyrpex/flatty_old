@@ -11,11 +11,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
 
-signals:
-
-public slots:
-    void createAnim();
-
 private:
     JointModel *m_model;
 };

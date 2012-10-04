@@ -17,11 +17,11 @@ public:
     explicit TimeWidget(JointModel *model, QWidget *parent = 0);
 
 public slots:
-    void onCurrentAnimChanged(int current, int previous);
+    void onCurrentAnimChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private slots:
     void onEntered(const QModelIndex &index);
-    void onAnimsInserted();
+    void updateColumnVisibility();
 
 private:
     JointModel *m_model;
@@ -31,6 +31,7 @@ private:
     QTreeView *m_animView;
     QModelIndex m_openEditorIndex;
     int m_currentAnim;
+    Anim *m_anim;
 };
 
 #endif // TIMEWIDGET_H

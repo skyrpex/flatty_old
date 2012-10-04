@@ -7,6 +7,7 @@ class QTreeView;
 class QModelIndex;
 class AnimModel;
 class Anim;
+class QItemSelection;
 
 class AnimWidget : public QWidget
 {
@@ -20,10 +21,9 @@ public slots:
     void removeAnim();
 
 signals:
-    void currentAnimChanged(int currentRow, int previousRow);
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private slots:
-    void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
     void updateActions();
 
 private:

@@ -17,7 +17,8 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
     m_header(new JointHeaderView),
     m_nameView(new QTreeView),
     m_animView(new QTreeView),
-    m_currentAnim(0)
+    m_currentAnim(0),
+    m_anim(NULL)
 {
     m_nameView->setModel(m_model);
     m_nameView->setItemDelegate(m_delegate);
@@ -32,7 +33,6 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
     m_animView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     m_animView->setAutoScroll(false);
     m_animView->setMouseTracking(true);
-    m_animView->hideColumn(0);
 
     connect(m_nameView, SIGNAL(expanded(QModelIndex)), m_animView, SLOT(expand(QModelIndex)));
     connect(m_animView, SIGNAL(expanded(QModelIndex)), m_nameView, SLOT(expand(QModelIndex)));
@@ -46,7 +46,8 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
     connect(m_header, SIGNAL(currentFrameChanged(int)), m_delegate, SLOT(setCurrentFrame(int)));
     connect(m_header, SIGNAL(currentFrameChanged(int)), m_animView->viewport(), SLOT(update()));
 
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)), SLOT(onAnimsInserted()));
+    connect(m_model->animModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(updateColumnVisibility()));
+    connect(m_model->animModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(updateColumnVisibility()));
 
     QSplitter *splitter = new QSplitter;
     splitter->addWidget(m_nameView);
@@ -54,15 +55,15 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(splitter);
+
+    updateColumnVisibility();
 }
 
-void TimeWidget::onCurrentAnimChanged(int current, int previous)
+void TimeWidget::onCurrentAnimChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-    current += JointModel::AnimColumn;
-    previous += JointModel::AnimColumn;
-    if(previous > 0) m_animView->hideColumn(previous);
-    if(current > 0) m_animView->showColumn(current);
-    m_currentAnim = current;
+    Q_UNUSED(previous);
+    m_anim = static_cast<Anim *>(current.internalPointer());
+    updateColumnVisibility();
 }
 
 void TimeWidget::onEntered(const QModelIndex &index)
@@ -80,19 +81,15 @@ void TimeWidget::onEntered(const QModelIndex &index)
     }
 }
 
-void TimeWidget::onAnimsInserted()
+void TimeWidget::updateColumnVisibility()
 {
-    // Hide name column
-    m_animView->hideColumn(0);
-
-    // Hide anim columns
-    for(int i = 0; i < m_model->animModel()->anims().count(); ++i)
+    for(int i = 0; i < 1+m_model->animModel()->anims().count(); ++i)
     {
-        m_nameView->hideColumn(i+JointModel::AnimColumn);
-        m_animView->hideColumn(i+JointModel::AnimColumn);
+        m_nameView->hideColumn(i);
+        m_animView->hideColumn(i);
     }
 
-    // Restore the current anim
-    if(m_currentAnim > 0)
-        m_animView->showColumn(m_currentAnim);
+    m_nameView->showColumn(0);
+    if(m_anim)
+        m_animView->showColumn(JointModel::AnimColumn + m_model->animModel()->anims().indexOf(m_anim));
 }
