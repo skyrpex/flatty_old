@@ -11,6 +11,8 @@ public:
 
     int currentFrame() const;
 
+    QSize sizeHint() const;
+
 public slots:
     void setCurrentFrame(int frame);
 

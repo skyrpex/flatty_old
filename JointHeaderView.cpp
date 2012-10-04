@@ -15,6 +15,8 @@ static const QPen MarkerPen(QColor(250, 0, 0));
 static const int FrameWidth = 8;
 static const int FramesInARow = 5;
 
+static const int HeaderHeight = 28;
+
 JointHeaderView::JointHeaderView(QWidget *parent) :
     QHeaderView(Qt::Horizontal, parent),
     m_currentFrame(0)
@@ -27,6 +29,11 @@ JointHeaderView::JointHeaderView(QWidget *parent) :
 int JointHeaderView::currentFrame() const
 {
     return m_currentFrame;
+}
+
+QSize JointHeaderView::sizeHint() const
+{
+    return QHeaderView::sizeHint().expandedTo(QSize(0, HeaderHeight));
 }
 
 void JointHeaderView::setCurrentFrame(int frame)

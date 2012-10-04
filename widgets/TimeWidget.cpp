@@ -22,6 +22,7 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
 {
     m_nameView->setModel(m_model);
     m_nameView->setItemDelegate(m_delegate);
+    m_nameView->setHeader(new JointHeaderView(this));
     m_nameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     m_nameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
