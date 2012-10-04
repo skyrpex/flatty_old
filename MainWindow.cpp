@@ -2,8 +2,6 @@
 #include "JointModel.h"
 #include "AnimModel.h"
 #include "Anim.h"
-#include "JointTreeView.h"
-#include "AnimTreeView.h"
 #include "widgets/TimeWidget.h"
 #include "widgets/AnimWidget.h"
 #include <QHBoxLayout>
