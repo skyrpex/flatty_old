@@ -42,7 +42,7 @@ TimeWidget::TimeWidget(JointModel *model, QWidget *parent) :
     connect(m_nameView->verticalScrollBar(), SIGNAL(valueChanged(int)), m_animView->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_animView->verticalScrollBar(), SIGNAL(valueChanged(int)), m_nameView->verticalScrollBar(), SLOT(setValue(int)));
 
-    connect(m_animView, SIGNAL(entered(QModelIndex)), SLOT(onEntered(QModelIndex)));
+    connect(m_animView, SIGNAL(entered(QModelIndex)), SLOT(openEditor(QModelIndex)));
     connect(m_delegate, SIGNAL(currentFrameChanged(int)), m_header, SLOT(setCurrentFrame(int)));
     connect(m_header, SIGNAL(currentFrameChanged(int)), m_delegate, SLOT(setCurrentFrame(int)));
     connect(m_header, SIGNAL(currentFrameChanged(int)), m_animView->viewport(), SLOT(update()));
@@ -67,7 +67,7 @@ void TimeWidget::onCurrentAnimChanged(const QModelIndex &current, const QModelIn
     updateColumnVisibility();
 }
 
-void TimeWidget::onEntered(const QModelIndex &index)
+void TimeWidget::openEditor(const QModelIndex &index)
 {
     if(m_openEditorIndex.isValid())
     {
@@ -93,4 +93,6 @@ void TimeWidget::updateColumnVisibility()
     m_nameView->showColumn(0);
     if(m_anim)
         m_animView->showColumn(JointModel::AnimColumn + m_model->animModel()->anims().indexOf(m_anim));
+
+    openEditor(m_animView->currentIndex());
 }

@@ -20,7 +20,7 @@ public slots:
     void onCurrentAnimChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private slots:
-    void onEntered(const QModelIndex &index);
+    void openEditor(const QModelIndex &index);
     void updateColumnVisibility();
 
 private:
