@@ -34,7 +34,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     Joint *rootJoint() const;
-    QModelIndex indexOf(Joint *joint, int column) const;
+    QModelIndex indexOf(Joint *joint, int column = 0) const;
     AnimModel *animModel() const;
 
 private slots:

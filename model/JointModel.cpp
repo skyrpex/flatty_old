@@ -48,17 +48,14 @@ QVariant JointModel::data(const QModelIndex &index, int role) const
         break;
 
     default:
-    {
-        int animID = index.column() - AnimColumn;
-        Anim *anim = m_animModel->anims().at(animID);
-        if(inRange(0, animID, joint->m_anims.count()))
+        if(inRange(AnimColumn, index.column(), AnimColumn+joint->m_anims.count()-1))
         {
+            Anim *anim = m_animModel->anims().at(index.column()-AnimColumn);
             if(role == Qt::DisplayRole || role == Qt::EditRole)
                 return QVariant::fromValue(joint->m_anims.value(anim));
             else if(role == AnimRole)
                 return QVariant::fromValue(anim);
         }
-    }
         break;
     }
 
@@ -127,9 +124,6 @@ QModelIndex JointModel::parent(const QModelIndex &index) const
 
 int JointModel::rowCount(const QModelIndex &parent) const
 {
-//    if(parent.column() > 0)
-//        return 0;
-
     if(!parent.isValid())
         return 1;
 
@@ -171,7 +165,8 @@ QModelIndex JointModel::indexOf(Joint *joint, int column) const
 
     // Root joint
     if(joint == m_root)
-        return index(0, column);
+        return createIndex(0, column, m_root);
+//        return index(0, column);
 
     // Get the child indexes
     QList<int> childIndexes;
@@ -207,6 +202,7 @@ AnimModel *JointModel::animModel() const
 void JointModel::onAnimsInserted(const QModelIndex &parent, int first, int last)
 {
     Q_UNUSED(parent);
+    emit layoutAboutToBeChanged();
     beginInsertColumns(QModelIndex(), JointModel::AnimColumn+first, JointModel::AnimColumn+last);
     QStack<Joint *> stack;
     stack.push(m_root);
@@ -223,6 +219,7 @@ void JointModel::onAnimsInserted(const QModelIndex &parent, int first, int last)
             stack.push(child);
     }
     endInsertColumns();
+    emit layoutChanged();
 }
 
 void JointModel::onAnimsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
@@ -287,7 +284,7 @@ void JointModel::beginRemoveJoints(Joint *parent, int row, int count)
     Q_ASSERT(row >= 0);
     Q_ASSERT(count > 0);
 
-    beginRemoveRows(indexOf(parent, 0), row, row + count - 1);
+    beginRemoveRows(indexOf(parent), row, row + count - 1);
 }
 
 void JointModel::endRemoveJoints()
@@ -297,7 +294,7 @@ void JointModel::endRemoveJoints()
 
 void JointModel::beginInsertJoints(Joint *parent, int row, int count)
 {
-    beginInsertRows(indexOf(parent, 0), row, row + count - 1);
+    beginInsertRows(indexOf(parent), row, row + count - 1);
 }
 
 void JointModel::endInsertJoints()
