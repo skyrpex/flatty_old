@@ -6,6 +6,7 @@
 
 class QTreeView;
 class JointModel;
+class JointProxyModel;
 class Anim;
 class JointDelegate;
 class JointHeaderView;
@@ -22,17 +23,17 @@ public slots:
 private slots:
     void openEditor(const QModelIndex &index);
     void resetEditor();
-    void updateColumnVisibility();
 
 private:
     JointModel *m_model;
+    JointProxyModel *m_nameProxyModel;
+    JointProxyModel *m_animProxyModel;
     JointDelegate *m_delegate;
     JointHeaderView *m_header;
     QTreeView *m_nameView;
     QTreeView *m_animView;
     QModelIndex m_openEditorIndex;
     int m_currentAnim;
-    Anim *m_anim;
 };
 
 #endif // TIMEWIDGET_H

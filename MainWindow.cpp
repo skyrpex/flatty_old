@@ -21,5 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(a);
     setCentralWidget(widget);
 
-    new Joint("Caca", m_model->rootJoint());
+    Joint *j = new Joint("Ist", m_model->rootJoint());
+    Joint *b = new Joint("Ber", j);
+    Joint *c = new Joint("Jah", j);
+    Joint *d = new Joint("Pul", c);
+    Joint *e = new Joint("Ko", m_model->rootJoint());
 }

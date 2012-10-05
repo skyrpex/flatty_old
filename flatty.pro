@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     widgets/TimeWidget.cpp \
     widgets/AnimWidget.cpp \
     dialogs/AnimDialog.cpp \
-    Application.cpp
+    Application.cpp \
+    model/JointProxyModel.cpp
 
 HEADERS  += \
     model/AnimModel.h \
@@ -39,7 +40,8 @@ HEADERS  += \
     widgets/AnimWidget.h \
     dialogs/AnimDialog.h \
     Application.h \
-    Constants.h
+    Constants.h \
+    model/JointProxyModel.h
 
 FORMS    += \
     dialogs/AnimDialog.ui
